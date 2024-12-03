@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Description Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        function copyToClipboard() {
+            const jdResult = document.getElementById('jd-result');
+            const textarea = document.createElement('textarea');
+            textarea.value = jdResult.textContent;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('Job Description copied to clipboard!');
+        }
+    
+        function editJobDescription() {
+            const jdResult = document.getElementById('jd-result');
+            const textarea = document.createElement('textarea');
+            textarea.value = jdResult.textContent.trim();
+            textarea.rows = 10; // Adjust rows and cols as needed
+            textarea.cols = 60;
+            jdResult.innerHTML = ''; // Clear current content
+            jdResult.appendChild(textarea);
+
+            // Replace edit button with save button
+            const buttonGroup = document.querySelector('.button-group');
+            const editButton = document.querySelector('.edit-button');
+            editButton.textContent = 'Save';
+            editButton.setAttribute('onclick', 'saveJobDescription()');
+        }
+
+        function saveJobDescription() {
+            const editedText = document.querySelector('#jd-result textarea').value;
+            const jdResult = document.getElementById('jd-result');
+            jdResult.textContent = editedText;
+
+            // Replace save button with edit button
+            const editButton = document.querySelector('.edit-button');
+            editButton.textContent = 'Edit';
+            editButton.setAttribute('onclick', 'editJobDescription()');
+        }
+
+        function showHeartbeat() {
+            var loader = document.getElementById('loader');
+            loader.style.display = 'block';
+        }
+
+        function showtext() {
+            var textsshow = document.getElementById()
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.querySelector('form');
+            form.addEventListener('submit', function(event) {
+                showHeartbeat();
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1><span>AI-Powered</span> JD Generator</h1>
+        <form id="jd-result" method="POST">
+            <div class="input-group">
+                <label for="Title">Title:</label>
+                <input type="text" id="Title" name="Title" required>
+            </div>
+            <div class="input-group">
+                <label for="work_mode">Work Mode:</label>
+                <select id="work_mode" name="work_mode" required>
+                    <option value="Hybrid">Hybrid</option>
+                    <option value="Work from home">Work from home</option>
+                    <option value="Work from office">Work from office</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" required>
+            </div>
+            <div class="input-group">
+                <label for="tech_stacks">Specific (optional):</label>
+                <input type="text" id="tech_stacks" name="tech_stacks">
+            </div>
+            <button type="submit" id="btn-load" class="generate-button">Generate
+                <svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 100 125" x="0px" y="0px">
+                    <path d="M23.31,57.53l7.21,2.57a8,8,0,0,1,4.74,4.56L38.57,73a8,8,0,0,0,14.86,0l3.32-8.3a8,8,0,0,1,4.74-4.56l7.21-2.57a8,8,0,0,0,0-15.07l-7.21-2.57a8,8,0,0,1-4.74-4.56L53.43,27a8,8,0,0,0-14.86,0l-3.32,8.3a8,8,0,0,1-4.74,4.56l-7.21,2.57a8,8,0,0,0,0,15.07Zm9.9-10.11a16,16,0,0,0,9.47-9.13L46,30l3.32,8.3a16,16,0,0,0,9.47,9.13L66,50l-7.21,2.57a16,16,0,0,0-9.47,9.13L46,70l-3.32-8.3a16,16,0,0,0-9.47-9.13L26,50Z"/>
+                    <path d="M66.89,27.45l3.26,1.63a1.73,1.73,0,0,1,.77.77l1.63,3.26a1.62,1.62,0,0,0,2.89,0l1.63-3.26a1.73,1.73,0,0,1,.77-.77l3.26-1.63A1.62,1.62,0,0,0,82,26h0a1.62,1.62,0,0,0-.89-1.45l-3.26-1.63a1.73,1.73,0,0,1-.77-.77l-1.63-3.26A1.62,1.62,0,0,0,74,18h0a1.62,1.62,0,0,0-1.45.89l-1.63,3.26a1.73,1.73,0,0,1-.78.78l-3.26,1.63A1.62,1.62,0,0,0,66,26h0A1.62,1.62,0,0,0,66.89,27.45Z"/>
+                    <path d="M66.89,75.45l3.26,1.63a1.73,1.73,0,0,1,.77.77l1.63,3.26a1.62,1.62,0,0,0,2.89,0l1.63-3.26a1.73,1.73,0,0,1,.77-.77l3.26-1.63A1.62,1.62,0,0,0,82,74h0a1.62,1.62,0,0,0-.89-1.45l-3.26-1.63a1.73,1.73,0,0,1-.77-.77l-1.63-3.26A1.62,1.62,0,0,0,74,66h0a1.62,1.62,0,0,0-1.45.89l-1.63,3.26a1.73,1.73,0,0,1-.78.78l-3.26,1.63A1.62,1.62,0,0,0,66,74h0A1.62,1.62,0,0,0,66.89,75.45Z"/>
+                </svg>
+            </button>
+        </form>
+
+        {% if jd_result %}
+        <div class="result">
+            <h2>Generated Job Description</h2>
+            <pre id="jd-result">{{ jd_result }}</pre>
+            <div class="button-group">
+                <button onclick="editJobDescription()" class="edit-button">Edit</button>
+                <button onclick="copyToClipboard()" class="copy-button">Copy</button>
+            </div>
+        </div>
+        {% endif %}
+        <div id="loader" class="loader"></div>
+    </div>
+
+    <div class="key_points">
+        <div class="key_content">
+          <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 48 48">
+            <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+            <path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
+          </svg>
+          <h3>99% Accurate</h3>
+        </div>
+        <div class="key_content">
+          <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 48 48">
+            <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+            <path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
+          </svg>
+          <h3>Time Saving</h3>
+        </div>
+        <div class="key_content">
+          <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 48 48">
+            <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+            <path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
+          </svg>
+          <h3>4x More Reach</h3>
+        </div>
+    </div>
+
+    <footer>
+        <p>Powered by ABEX</p>
+    </footer>
+</body>
+</html>
